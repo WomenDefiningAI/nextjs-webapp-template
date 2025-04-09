@@ -1,17 +1,10 @@
-# Mckay's App Template
+# NextJS Webapp Template
 
-This is a full-stack app template for courses on [Takeoff](https://JoinTakeoff.com/).
-
-## Sponsors
-
-If you are interested in sponsoring my repos, please contact me at [ads@takeoffai.org](mailto:ads@takeoffai.org).
-
-Or sponsor me directly on [GitHub Sponsors](https://github.com/sponsors/mckaywrigley).
+A pre-built webapp template for [Women Defining AI](https://www.womendefiningai.com/) vibecoding intro, edited from the [McKay App Template](https://github.com/mckaywrigley/mckays-app-template). This template hides boilerplate integrations while we build out functionality & also uses boime checks instead of prettier for format and linting.
 
 ## Tech Stack
 
 - IDE: [Cursor](https://www.cursor.com/)
-- AI Tools: [V0](https://v0.dev/), [Perplexity](https://www.perplexity.com/)
 - Frontend: [Next.js](https://nextjs.org/docs), [Tailwind](https://tailwindcss.com/docs/guides/nextjs), [Shadcn](https://ui.shadcn.com/docs/installation), [Framer Motion](https://www.framer.com/motion/introduction/)
 - Backend: [PostgreSQL](https://www.postgresql.org/about/), [Supabase](https://supabase.com/), [Drizzle](https://orm.drizzle.team/docs/get-started-postgresql), [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
 - Auth: [Clerk](https://clerk.com/)
