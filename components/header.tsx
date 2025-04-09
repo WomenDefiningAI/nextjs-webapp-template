@@ -7,13 +7,15 @@ This client component provides the header for the app.
 "use client"
 
 import { Button } from "@/components/ui/button"
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton
-} from "@clerk/nextjs"
+import { AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
+// import {
+//   SignedIn,
+//   SignedOut,
+//   SignInButton,
+//   SignUpButton,
+//   UserButton
+// } from "@clerk/nextjs"
 import { Menu, Rocket, X } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -56,12 +58,12 @@ export default function Header() {
         <div className="flex items-center space-x-2 hover:cursor-pointer hover:opacity-80">
           <Rocket className="size-6" />
           <Link href="/" className="text-xl font-bold">
-            Mckay's App Template
+            WebApp Template
           </Link>
         </div>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 space-x-2 font-semibold md:flex">
-          {navLinks.map(link => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -71,92 +73,102 @@ export default function Header() {
             </Link>
           ))}
 
-          <SignedIn>
-            {signedInLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="rounded-full px-3 py-1 hover:opacity-80"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </SignedIn>
+          {/* <SignedIn> */}
+          {/*  {signedInLinks.map(link => ( */}
+          {/*    <Link */}
+          {/*      key={link.href} */}
+          {/*      href={link.href} */}
+          {/*      className="rounded-full px-3 py-1 hover:opacity-80" */}
+          {/*    > */}
+          {/*      {link.label} */}
+          {/*    </Link> */}
+          {/*  ))} */}
+          {/* </SignedIn> */}
         </nav>
 
-        <div className="flex items-center space-x-4">
+        <div className="hidden items-center space-x-4 md:flex">
           <ThemeSwitcher />
+          {/* <SignedOut> */}
+          {/* <SignInButton mode="modal"> */}
+          {/* <Button variant="ghost">Login</Button> */}
+          {/* </SignInButton> */}
+          {/* <SignUpButton mode="modal"> */}
+          {/* <Button>Sign Up</Button> */}
+          {/* </SignUpButton> */}
+          {/* </SignedOut> */}
+          {/* <SignedIn> */}
+          {/* <UserButton afterSignOutUrl="/" /> */}
+          {/* </SignedIn> */}
+          {/* Static Links Placeholder */}
+          <Link href="#">
+            <Button variant="ghost">Login</Button>
+          </Link>
+          <Link href="#">
+            <Button>Sign Up</Button>
+          </Link>
+        </div>
 
-          <SignedOut>
-            <SignInButton>
-              <Button variant="outline">Login</Button>
-            </SignInButton>
-
-            <SignUpButton>
-              <Button className="bg-blue-500 hover:bg-blue-600">Sign Up</Button>
-            </SignUpButton>
-          </SignedOut>
-
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? (
-                <X className="size-6" />
-              ) : (
-                <Menu className="size-6" />
-              )}
-            </Button>
-          </div>
+        <div className="md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? (
+              <X className="size-6" />
+            ) : (
+              <Menu className="size-6" />
+            )}
+          </Button>
         </div>
       </div>
 
-      {isMenuOpen && (
-        <nav className="bg-primary-foreground text-primary p-4 md:hidden">
-          <ul className="space-y-2">
-            <li>
-              <Link
-                href="/"
-                className="block hover:underline"
-                onClick={toggleMenu}
-              >
-                Home
-              </Link>
-            </li>
-            {navLinks.map(link => (
-              <li key={link.href}>
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-background/80"
+          >
+            <div className="flex flex-col space-y-4 p-4 pt-20">
+              {[...navLinks /* , ...signedInLinks */].map((link) => (
                 <Link
+                  key={link.href}
                   href={link.href}
-                  className="block hover:underline"
+                  className="text-lg hover:text-primary"
                   onClick={toggleMenu}
                 >
                   {link.label}
                 </Link>
-              </li>
-            ))}
-            <SignedIn>
-              {signedInLinks.map(link => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="block hover:underline"
-                    onClick={toggleMenu}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
               ))}
-            </SignedIn>
-          </ul>
-        </nav>
-      )}
+              <div className="mt-auto flex items-center space-x-4 border-t pt-4">
+                <ThemeSwitcher />
+                {/* <SignedOut> */}
+                {/* <SignInButton mode="modal"> */}
+                {/* <Button variant="ghost" onClick={toggleMenu}>Login</Button> */}
+                {/* </SignInButton> */}
+                {/* <SignUpButton mode="modal"> */}
+                {/* <Button onClick={toggleMenu}>Sign Up</Button> */}
+                {/* </SignUpButton> */}
+                {/* </SignedOut> */}
+                {/* <SignedIn> */}
+                {/* <UserButton afterSignOutUrl="/" /> */}
+                {/* </SignedIn> */}
+                {/* Static Links Placeholder */}
+                <Link href="#">
+                  <Button variant="ghost">Login</Button>
+                </Link>
+                <Link href="#">
+                  <Button>Sign Up</Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

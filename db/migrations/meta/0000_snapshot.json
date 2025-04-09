@@ -109,10 +109,7 @@
     "public.membership": {
       "name": "membership",
       "schema": "public",
-      "values": [
-        "free",
-        "pro"
-      ]
+      "values": ["free", "pro"]
     }
   },
   "schemas": {},

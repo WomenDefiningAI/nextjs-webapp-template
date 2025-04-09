@@ -13,12 +13,12 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
-  Map,
+  MapIcon,
   PieChart,
   Settings2,
   SquareTerminal
 } from "lucide-react"
-import * as React from "react"
+import type * as React from "react"
 
 import {
   Sidebar,
@@ -104,7 +104,7 @@ const data = {
   projects: [
     { name: "Design Engineering", url: "#", icon: Frame },
     { name: "Sales & Marketing", url: "#", icon: PieChart },
-    { name: "Travel", url: "#", icon: Map }
+    { name: "Travel", url: "#", icon: MapIcon }
   ]
 }
 

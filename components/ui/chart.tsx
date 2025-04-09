@@ -76,8 +76,19 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
     return null
   }
 
+  const rootStyle = document.documentElement.style
+
+  /* Commenting out potentially problematic useEffect
+  React.useEffect(() => {
+    rootStyle.setProperty("--chart-font-family", fontFamily ?? "inherit")
+    rootStyle.setProperty("--chart-label", colors.label ?? "inherit")
+    rootStyle.setProperty("--chart-muted", colors.muted ?? "inherit")
+  }, [fontFamily, colors])
+  */
+
   return (
     <style
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: Necessary for injecting dynamic theme styles
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(
@@ -285,7 +296,7 @@ const ChartLegendContent = React.forwardRef<
           className
         )}
       >
-        {payload.map(item => {
+        {payload.map((item) => {
           const key = `${nameKey || item.dataKey || "value"}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
 

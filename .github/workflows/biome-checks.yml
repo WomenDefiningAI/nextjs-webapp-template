@@ -1,0 +1,44 @@
+name: Biome Checks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    name: Run Biome Linter and Formatter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use your project's Node version
+
+      - name: Cache node_modules
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          # Generate a key based on lockfile hash
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          # Fallback keys
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        # Run only if cache wasn't restored
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm ci # Use 'ci' for cleaner installs in CI environments
+
+      - name: Run Biome Check (Lint & Format)
+        # Runs Biome's combined check command
+        run: npx biome check .
+        # Alternatively, use separate commands:
+        # run: npx biome lint .
+        # run: npx biome format --check . # --check verifies formatting without writing changes 

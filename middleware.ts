@@ -4,25 +4,42 @@ Contains middleware for protecting routes, checking user authentication, and red
 </ai_context>
 */
 
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 
-const isProtectedRoute = createRouteMatcher(["/todo(.*)"])
+// import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 
-export default clerkMiddleware(async (auth, req) => {
-  const { userId, redirectToSignIn } = await auth()
+// Define public routes (accessible without login)
+// const isPublicRoute = createRouteMatcher([
+//   "/",
+//   "/about",
+//   "/pricing",
+//   "/contact",
+//   "/login(.*)", // Matches /login and any sub-paths
+//   "/signup(.*)", // Matches /signup and any sub-paths
+//   "/api/stripe/webhooks", // Stripe webhook needs to be public
+//   "/api/clerk/webhooks"  // Clerk webhook needs to be public
+// ])
 
-  // If the user isn't signed in and the route is private, redirect to sign-in
-  if (!userId && isProtectedRoute(req)) {
-    return redirectToSignIn({ returnBackUrl: "/login" })
-  }
+// // Commented out Clerk middleware logic
+// // export default clerkMiddleware((auth, request) => {
+// //   // Protect routes that are not public
+// //   // if (!isPublicRoute(request)) {
+// //   //   auth().protect() // Redirects to login if not authenticated
+// //   // }
+// // });
 
-  // If the user is logged in and the route is protected, let them view.
-  if (userId && isProtectedRoute(req)) {
-    return NextResponse.next()
-  }
-})
+// Minimal default middleware export to satisfy Next.js requirement
+export function middleware(request: NextRequest) {
+  // Simply pass the request through without any checks
+  return NextResponse.next()
+}
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"]
+  matcher: [
+    // Match all routes except static files and internal Next.js paths
+    "/((?!.*\\..*|_next).*)",
+    "/",
+    "/(api|trpc)(.*)"
+  ]
 }

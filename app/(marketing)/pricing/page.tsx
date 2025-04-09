@@ -19,7 +19,8 @@ import { cn } from "@/lib/utils"
 import { auth } from "@clerk/nextjs/server"
 
 export default async function PricingPage() {
-  const { userId } = await auth()
+  // const { userId } = await auth()
+  const userId = null // Set userId to null as auth is disabled
 
   return (
     <div className="container mx-auto py-12">
@@ -30,9 +31,7 @@ export default async function PricingPage() {
           price="$10"
           description="Billed monthly"
           buttonText="Subscribe Monthly"
-          buttonLink={
-            process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_MONTHLY || "#"
-          }
+          buttonLink="#" // Hardcode to #
           userId={userId}
         />
         <PricingCard
@@ -40,7 +39,7 @@ export default async function PricingPage() {
           price="$100"
           description="Billed annually"
           buttonText="Subscribe Yearly"
-          buttonLink={process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_YEARLY || "#"}
+          buttonLink="#" // Hardcode to #
           userId={userId}
         />
       </div>
@@ -65,9 +64,10 @@ function PricingCard({
   buttonLink,
   userId
 }: PricingCardProps) {
-  const finalButtonLink = userId
-    ? `${buttonLink}?client_reference_id=${userId}`
-    : buttonLink
+  // const finalButtonLink = userId
+  //   ? `${buttonLink}?client_reference_id=${userId}`
+  //   : buttonLink
+  const finalButtonLink = "#" // Hardcode to #
 
   return (
     <Card className="flex h-full flex-col">
@@ -79,17 +79,7 @@ function PricingCard({
         <p className="text-4xl font-bold">{price}</p>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" asChild>
-          <a
-            href={finalButtonLink}
-            className={cn(
-              "inline-flex items-center justify-center",
-              finalButtonLink === "#" && "pointer-events-none opacity-50"
-            )}
-          >
-            {buttonText}
-          </a>
-        </Button>
+        <Button className="w-full">{buttonText}</Button>
       </CardFooter>
     </Card>
   )

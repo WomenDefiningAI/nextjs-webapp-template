@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
-import { SelectTodo } from "@/db/schema"
+import type { SelectTodo } from "@/db/schema"
 import { Trash2 } from "lucide-react"
 import { useState } from "react"
 
@@ -37,7 +37,7 @@ export function TodoList({ userId, initialTodos }: TodoListProps) {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-      setTodos(prevTodos => [...prevTodos, newTodoData])
+      setTodos((prevTodos) => [...prevTodos, newTodoData])
       setNewTodo("")
 
       const result = await createTodoAction({
@@ -46,15 +46,15 @@ export function TodoList({ userId, initialTodos }: TodoListProps) {
         completed: false
       })
       if (result.isSuccess) {
-        setTodos(prevTodos =>
-          prevTodos.map(todo =>
+        setTodos((prevTodos) =>
+          prevTodos.map((todo) =>
             todo.id === newTodoData.id ? result.data : todo
           )
         )
       } else {
         console.error("Error creating todo:", result.message)
-        setTodos(prevTodos =>
-          prevTodos.filter(todo => todo.id !== newTodoData.id)
+        setTodos((prevTodos) =>
+          prevTodos.filter((todo) => todo.id !== newTodoData.id)
         )
       }
     }
@@ -62,8 +62,8 @@ export function TodoList({ userId, initialTodos }: TodoListProps) {
 
   const handleToggleTodo = async (id: string, completed: boolean) => {
     console.log("handleToggleTodo", id, completed)
-    setTodos(prevTodos =>
-      prevTodos.map(todo =>
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
         todo.id === id ? { ...todo, completed: !completed } : todo
       )
     )
@@ -73,7 +73,7 @@ export function TodoList({ userId, initialTodos }: TodoListProps) {
 
   const handleRemoveTodo = async (id: string) => {
     console.log("handleRemoveTodo", id)
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id))
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
 
     await deleteTodoAction(id)
   }
@@ -86,15 +86,15 @@ export function TodoList({ userId, initialTodos }: TodoListProps) {
         <Input
           type="text"
           value={newTodo}
-          onChange={e => setNewTodo(e.target.value)}
+          onChange={(e) => setNewTodo(e.target.value)}
           placeholder="Add a new todo"
           className="mr-2"
-          onKeyPress={e => e.key === "Enter" && handleAddTodo()}
+          onKeyPress={(e) => e.key === "Enter" && handleAddTodo()}
         />
         <Button onClick={handleAddTodo}>Add</Button>
       </div>
       <ul className="space-y-2">
-        {todos.map(todo => (
+        {todos.map((todo) => (
           <li
             key={todo.id}
             className="bg-muted flex items-center justify-between rounded p-2"

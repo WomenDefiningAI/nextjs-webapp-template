@@ -1,20 +1,17 @@
 {
-  "name": "mckays-app-template",
+  "name": "nextjs-webapp-template",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "clean": "npm run lint:fix && npm run format:write",
+    "clean": "npm run biome check --apply .",
     "type-check": "tsc --noEmit",
-    "lint:fix": "next lint --fix",
-    "format:write": "prettier --write \"{app,lib,db,components,context,types}/**/*.{ts,tsx}\" --cache",
-    "format:check": "prettier --check \"{app,lib,db,components,context,types}**/*.{ts,tsx}\" --cache",
     "analyze": "ANALYZE=true npm run build",
     "db:generate": "npx drizzle-kit generate",
     "db:migrate": "npx drizzle-kit migrate",
+    "biome": "biome",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -76,19 +73,15 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^20",
     "@types/react": "^16.8 || ^17.0 || ^18.0 || ^19.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0",
     "dotenv": "^16.4.5",
     "drizzle-kit": "^0.24.2",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.7",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-tailwindcss": "^3.17.5",
     "husky": "^9.1.6",
     "postcss": "^8",
-    "prettier": "^3.3.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

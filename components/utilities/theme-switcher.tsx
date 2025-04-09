@@ -9,7 +9,7 @@ This client component provides a theme switcher for the app.
 import { cn } from "@/lib/utils"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import { HTMLAttributes, ReactNode } from "react"
+import type { HTMLAttributes, ReactNode } from "react"
 
 interface ThemeSwitcherProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
@@ -24,18 +24,24 @@ export const ThemeSwitcher = ({ children, ...props }: ThemeSwitcherProps) => {
   }
 
   return (
-    <div
+    <button
+      type="button"
       className={cn(
-        "p-1 hover:cursor-pointer hover:opacity-50",
+        "flex size-7 cursor-pointer items-center justify-center rounded-md border bg-transparent p-0 transition-colors hover:bg-accent hover:text-accent-foreground",
         props.className
       )}
       onClick={() => handleChange(theme === "light" ? "dark" : "light")}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleChange(theme === "light" ? "dark" : "light")
+        }
+      }}
     >
       {theme === "dark" ? (
         <Moon className="size-6" />
       ) : (
         <Sun className="size-6" />
       )}
-    </div>
+    </button>
   )
 }

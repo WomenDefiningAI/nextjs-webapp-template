@@ -17,7 +17,7 @@ import {
   AppWindow,
   Database,
   DollarSign,
-  LucideIcon,
+  type LucideIcon,
   Shield
 } from "lucide-react"
 
@@ -77,8 +77,8 @@ export const FeaturesSection = () => {
         >
           <h2 className="mb-12 text-center text-4xl font-bold">Tech Stack</h2>
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {features.map((feature, index) => (
-              <FeatureCard key={index} {...feature} />
+            {features.map((feature /*, index */) => (
+              <FeatureCard key={feature.title} {...feature} />
             ))}
           </div>
         </motion.div>

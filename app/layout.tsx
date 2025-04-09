@@ -4,26 +4,21 @@ The root server layout for the app.
 </ai_context>
 */
 
-import {
-  createProfileAction,
-  getProfileByUserIdAction
-} from "@/actions/db/profiles-actions"
 import { Toaster } from "@/components/ui/toaster"
-import { PostHogPageview } from "@/components/utilities/posthog/posthog-pageview"
-import { PostHogUserIdentify } from "@/components/utilities/posthog/posthog-user-identity"
 import { Providers } from "@/components/utilities/providers"
 import { TailwindIndicator } from "@/components/utilities/tailwind-indicator"
 import { cn } from "@/lib/utils"
-import { ClerkProvider } from "@clerk/nextjs"
-import { auth } from "@clerk/nextjs/server"
-import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import Header from "@/components/header"
+import type { Metadata } from "next"
+import type React from "react"
+import { Suspense } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Mckay's App Template",
+  title: "WebApp Template",
   description: "A full-stack web app template."
 }
 
@@ -32,41 +27,45 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { userId } = await auth()
+  // const { userId } = await auth() // Get user ID on the server
+  // const userId = null // Temporarily set userId to null
 
-  if (userId) {
-    const profileRes = await getProfileByUserIdAction(userId)
-    if (!profileRes.isSuccess) {
-      await createProfileAction({ userId })
-    }
-  }
+  // // Sync Clerk user with local profile DB if logged in but no profile exists
+  // if (userId) {
+  //   const profileResult = await getProfileByUserIdAction(userId)
+  //   if (!profileResult.isSuccess || !profileResult.data) {
+  //     // Assuming a webhook or similar process hasn't created it yet
+  //     // Or handle potential race conditions/errors more robustly
+  //     console.log(`Profile not found for userId: ${userId}, attempting creation.`)
+  //     // Potential place to call createProfileAction if webhook failed or is delayed
+  //     // await createProfileAction({ userId: userId /*, other defaults */ });
+  //   }
+  // }
 
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={cn(
-            "bg-background mx-auto min-h-screen w-full scroll-smooth antialiased",
-            inter.className
-          )}
-        >
-          <Providers
-            attribute="class"
-            defaultTheme="light"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
-            <PostHogUserIdentify />
-            <PostHogPageview />
-
-            {children}
-
-            <TailwindIndicator />
-
-            <Toaster />
-          </Providers>
-        </body>
-      </html>
-    </ClerkProvider>
+    // <ClerkProvider> {/* Provides Clerk context */}
+    <html lang="en" suppressHydrationWarning>
+      {/* Add PostHogUserIdentify component INSIDE ClerkProvider but preferably outside Providers if it needs Clerk context directly */}
+      {/* {userId && <PostHogUserIdentify userId={userId} />} */}
+      <body
+        className={cn(
+          "bg-background min-h-screen font-sans antialiased",
+          inter.className
+        )}
+      >
+        <Providers>
+          {" "}
+          {/* Contains other providers like ThemeProvider */}
+          {/* <Suspense> */}
+          {/* <PostHogPageview /> */}
+          {/* </Suspense> */}
+          <Toaster />
+          <Header />
+          <main className="flex flex-1 flex-col">{children}</main>
+          <TailwindIndicator />
+        </Providers>
+      </body>
+    </html>
+    // </ClerkProvider>
   )
 }

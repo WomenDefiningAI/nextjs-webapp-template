@@ -2,4 +2,6 @@
 
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run lint:fix && npm run format:write && git add .
+# npm run lint:fix && npm run biome check --apply . && git add .
+# Only run biome check and add changes
+npm run biome check --apply . && git add .

@@ -8,9 +8,9 @@ import {
   updateProfileAction,
   updateProfileByStripeCustomerIdAction
 } from "@/actions/db/profiles-actions"
-import { SelectProfile } from "@/db/schema"
+import type { SelectProfile } from "@/db/schema"
 import { stripe } from "@/lib/stripe"
-import Stripe from "stripe"
+import type Stripe from "stripe"
 
 type MembershipStatus = SelectProfile["membership"]
 

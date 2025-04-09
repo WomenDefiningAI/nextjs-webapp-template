@@ -25,9 +25,9 @@ import {
 import {
   Folder,
   Forward,
+  type LucideIcon,
   MoreHorizontal,
-  Trash2,
-  type LucideIcon
+  Trash2
 } from "lucide-react"
 
 export function NavProjects({
@@ -45,7 +45,7 @@ export function NavProjects({
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map(item => (
+        {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
