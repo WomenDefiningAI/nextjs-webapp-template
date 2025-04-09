@@ -57,3 +57,7 @@ NEXT_PUBLIC_POSTHOG_HOST=
 2. Copy `.env.example` to `.env.local` and fill in the environment variables from above
 3. Run `npm install` to install dependencies
 4. Run `npm run dev` to run the app locally
+
+## Known Issues
+
+- **Moderate Vulnerability in `esbuild` (via `drizzle-kit`)**: As of July 2024, `npm audit` reports a moderate vulnerability in `esbuild`, a development dependency pulled in by `drizzle-kit`. This vulnerability ([GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99)) only affects the local development server (`npm run dev`) and does not impact the production build. The current recommendation is to monitor Dependabot alerts and wait for an upstream fix in `drizzle-kit` or its dependencies, rather than using `npm audit fix --force` which may cause breaking changes.
